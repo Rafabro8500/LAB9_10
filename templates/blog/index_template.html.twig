@@ -59,15 +59,15 @@
         <span class="span1">
             <ul class="navbar-nav mr-auto">
                 <!-- Meter o If aqui -->
-                {if $user_name}
+                {%if user_name is defined%}
                 <li class="nav-item mr-1">
-                    <h4 class="mt-1"> Welcome, {$user_name} </h4>
+                    <h4 class="mt-1"> Welcome, {{user_name}} </h4>
                 </li>
                 <li class="nav-item">
                     <button class="btn btn-dark" type="button" onClick="window.location='logout.php'"
                         style="margin-left: 5px"><i class="fas fa-sign-out-alt" style="margin: 2px"></i>Logout</button>
                 </li>
-                {else}
+                {%else%}
                 <li class="nav-item">
                     <button class="btn btn-dark" type="button" onClick="window.location='login.php'"><i
                             class="fas fa-user-check" style="margin: 2px"></i>Login</button>
@@ -77,7 +77,7 @@
                         onClick="window.location='register.php'"><i class="fas fa-sign-in-alt"
                             style="margin: 2px"></i>Register</button>
                 </li>
-                {/if}
+                {%endif%}
             </ul>
         </span>
     </div>
@@ -92,34 +92,36 @@
                     <div class="col-sm-10">
                         <h1 style="color:whitesmoke;">Forums</h1>
                     </div>
-                    {if $user_name}
+                    {%if user_name is defined%}
                     <div class="col-sm-2 text-right mt-2">
-                        <button class="btn btn-success" onClick="window.location='blog.php'">Create Post</button>
+                        <a class="btn btn-success" href="{{path('post')}}">Create Post</a>
                     </div>
-                    {/if}
+                    {%endif%}
                 </div>
                 <div class="card">
                     <h5 class="card-header">Featured Posts</h5>
                     <div class="card-body">
                         <ul class="list-group">
-                            {foreach item=post from=$posts}
+                            {%for post in posts %}
                             <li class="media mb-4">
                                 <img class="rounded-circle mr-3" src="../../images/bill_nye.jpg" alt="Generic placeholder image">
                                 <div class="media-body">
-                                    <h5 class="mt-0 mb-1"><a href="#">{$post.name}</a></h5>
-                                    <p>{$post.content}</p>
+                                    <h5 class="mt-0 mb-1"><a href="#">{{post.name}}</a></h5>
+                                    <p>{{post.content}}</p>
                                     <div class="media-bottom mt-1">
-                                        <small><i>Posted on {$post.created_at}</i></small>
-                                        <small><i>Updated on {$post.updated_at}</i></small>
+                                        <small><i>Posted on {{post.created_at}}</i></small>
+                                        <small><i>Updated on {{post.updated_at}}</i></small>
                                     </div>
                                 </div>
                                 <div class="btn-group-vertical" role="group">
-                                    <button class="btn btn-primary mb-2"><i class="far fa-thumbs-up"></i> {$post.likes}
-                                    </button> {if $user_id == $post.user_id}
-                                    <button class="btn btn-success" type="button" onClick="window.location='blog.php?micropost_id={$post.id}'"> Update </button> {/if}
+                                    <button class="btn btn-primary mb-2"><i class="far fa-thumbs-up"></i> {{post.likes}}
+                                    </button> 
+                                    {if user_id == post.user_id}
+                                        <a class="btn btn-success" href="{{path('post',{'post_id' : post.id})}}">Update </a> 
+                                    {endif}
                                 </div>
                             </li>
-                            {/foreach}
+                            {%endfor%}
                         </ul>
                         <a href="#" class="btn btn-primary">See More</a>
                     </div>
@@ -131,24 +133,26 @@
                     <h5 class="card-header">Most Recent Posts</h5>
                     <div class="card-body">
                         <ul class="list-group">
-                            {foreach item=post from=$recent_posts}
+                            {%for post in recent_posts %}
                             <li class="media mb-4">
                                 <img class="rounded-circle mr-3" src="../../images/aliens.jpg" alt="Generic placeholder image">
                                 <div class="media-body">
-                                    <h5 class="mt-0 mb-1"><a href="#">{$post.name}</a></h5>
-                                    <p>{$post.content}</p>
+                                    <h5 class="mt-0 mb-1"><a href="#">{{post.name}}</a></h5>
+                                    <p>{{post.content}}</p>
                                     <div class="media-bottom">
-                                        <small><i>Posted on {$post.created_at}</i></small>
-                                        <small><i>Updated on {$post.updated_at}</i></small>
+                                        <small><i>Posted on {{post.created_at}}</i></small>
+                                        <small><i>Updated on {{post.updated_at}}</i></small>
                                     </div>
                                 </div>
                                 <div class="btn-group-vertical" role="group">
-                                    <button class="btn btn-primary mb-2"><i class="far fa-thumbs-up"></i> {$post.likes}
-                                    </button> {if $user_id == $post.user_id}
-                                    <button class="btn btn-success" type="button" onClick="window.location='blog.php?micropost_id={$post.id}'"> Update </button> {/if}
+                                    <button class="btn btn-primary mb-2"><i class="far fa-thumbs-up"></i> {{post.likes}}
+                                    </button>
+                                    {if user_id == post.user_id}
+                                        <a class="btn btn-success" href="{{path('post',{'post_id' : post.id})}}">Update </a> 
+                                    {endif}
                                 </div>
                             </li>
-                            {/foreach}
+                            {%endfor%}
                         </ul>
                         <a href="#" class="btn btn-primary">See More</a>
                     </div>
