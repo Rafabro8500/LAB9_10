@@ -18,13 +18,13 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="../../css/screen.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{asset('css/screen.css')}}" />
 </head>
 
 <header class="container-fluid bg-dark">
     <div class="jumbotron jumbotron-fluid text-left bg-dark text-white">
         <div class="container-fluid">
-            <h1> <img src="../../images/portal2.png" class="img-fluid" style="width: 50px;"><b>Portal do Cientismo</b>
+            <h1> <img src="{{asset('images/portal2.png')}}" class="img-fluid" style="width: 50px;"><b>Portal do Cientismo</b>
             </h1>
             <div class="container-fluid">
                 <p>Onde os Cientistas podem ser quem dizem que são!</p>
@@ -41,20 +41,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{path('blog')}}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <!-- <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li> -->
         </ul>
         <span class="span1">
             <ul class="navbar-nav mr-auto">
@@ -64,18 +52,17 @@
                     <h4 class="mt-1"> Welcome, {{user_name}} </h4>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-dark" type="button" onClick="window.location='logout.php'"
-                        style="margin-left: 5px"><i class="fas fa-sign-out-alt" style="margin: 2px"></i>Logout</button>
+                    <a class="btn btn-dark" type="button" href="{{path('logout')}}"
+                        style="margin-left: 5px"><i class="fas fa-sign-out-alt" style="margin: 2px"></i>Logout</a>
                 </li>
                 {%else%}
                 <li class="nav-item">
-                    <button class="btn btn-dark" type="button" onClick="window.location='login.php'"><i
-                            class="fas fa-user-check" style="margin: 2px"></i>Login</button>
+                    <a class="btn btn-dark" type="button" href="{{path('login')}}"><i
+                            class="fas fa-user-check" style="margin: 2px"></i>Login</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-success" type="button" style="margin-left: 5px;"
-                        onClick="window.location='register.php'"><i class="fas fa-sign-in-alt"
-                            style="margin: 2px"></i>Register</button>
+                    <a class="btn btn-success" type="button" href="{{path('register')}}" style="margin-left: 5px;"><i class="fas fa-sign-in-alt"
+                            style="margin: 2px"></i>Register</a>
                 </li>
                 {%endif%}
             </ul>
@@ -104,7 +91,7 @@
                         <ul class="list-group">
                             {%for post in posts %}
                             <li class="media mb-4">
-                                <img class="rounded-circle mr-3" src="../../images/bill_nye.jpg" alt="Generic placeholder image">
+                                <img class="rounded-circle mr-3" src="{{asset('images/bill_nye.jpg')}}" alt="Generic placeholder image">
                                 <div class="media-body">
                                     <h5 class="mt-0 mb-1"><a href="#">{{post.name}}</a></h5>
                                     <p>{{post.content}}</p>
@@ -116,9 +103,9 @@
                                 <div class="btn-group-vertical" role="group">
                                     <button class="btn btn-primary mb-2"><i class="far fa-thumbs-up"></i> {{post.likes}}
                                     </button> 
-                                    {if user_id == post.user_id}
+                                    {% if (user_id is defined) and (user_id == post.user_id) %}
                                         <a class="btn btn-success" href="{{path('post',{'post_id' : post.id})}}">Update </a> 
-                                    {endif}
+                                    {% endif %}
                                 </div>
                             </li>
                             {%endfor%}
@@ -135,7 +122,7 @@
                         <ul class="list-group">
                             {%for post in recent_posts %}
                             <li class="media mb-4">
-                                <img class="rounded-circle mr-3" src="../../images/aliens.jpg" alt="Generic placeholder image">
+                                <img class="rounded-circle mr-3" src="{{asset('images/aliens.jpg')}}" alt="Generic placeholder image">
                                 <div class="media-body">
                                     <h5 class="mt-0 mb-1"><a href="#">{{post.name}}</a></h5>
                                     <p>{{post.content}}</p>
@@ -147,9 +134,9 @@
                                 <div class="btn-group-vertical" role="group">
                                     <button class="btn btn-primary mb-2"><i class="far fa-thumbs-up"></i> {{post.likes}}
                                     </button>
-                                    {if user_id == post.user_id}
+                                    {% if (user_id is defined) and (user_id == post.user_id) %}
                                         <a class="btn btn-success" href="{{path('post',{'post_id' : post.id})}}">Update </a> 
-                                    {endif}
+                                    {% endif %}
                                 </div>
                             </li>
                             {%endfor%}
@@ -172,13 +159,13 @@
                     <!-- The slideshow -->
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="../../images/harold.jpg" alt="Harold">
+                            <img src="{{asset('images/harold.jpg')}}" alt="Harold">
                         </div>
                         <div class="carousel-item">
-                            <img src="../../images/aliens.jpg" alt="Aliens Guy">
+                            <img src="{{asset('images/aliens.jpg')}}" alt="Aliens Guy">
                         </div>
                         <div class="carousel-item">
-                            <img src="../../images/bill_nye.jpg" alt="Bill Nye The Science Guy">
+                            <img src="{{asset('images/bill_nye.jpg')}}" alt="Bill Nye The Science Guy">
                         </div>
                     </div>
 
